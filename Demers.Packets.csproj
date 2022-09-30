@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageId>Demers.Packets</PackageId>
+    <Version>0.1</Version>
+    <Authors>Paul Demers</Authors>
+    <Company>P2.Dev</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Title>Demers.Packets</Title>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/PaulMDemers/Demers.Packets</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/PaulMDemers/Demers.Packets</RepositoryUrl>
+    <PackageTags>TCP;Packet;Socket;TCPClient;Server;Client</PackageTags>
+    <Description>
+      A packet based abstraction for TCP sockets, servers, and client.
+    </Description>
+  </PropertyGroup>
+
+</Project>
