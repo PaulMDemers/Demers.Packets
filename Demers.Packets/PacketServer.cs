@@ -11,19 +11,19 @@ namespace Demers.Packets
 {
     public class PacketServer
     {
-        TcpListener listener;
+        private readonly TcpListener _listener;
 
         public PacketServer(int port)
         {
-            listener = new TcpListener(IPAddress.Any, port);
-            listener.Start();
+            _listener = new TcpListener(IPAddress.Any, port);
+            _listener.Start();
         }
 
         public PacketClient Accept()
         {
-            if (listener.Pending())
+            if (_listener.Pending())
             {
-                return new PacketClient(listener.AcceptTcpClient());
+                return new PacketClient(_listener.AcceptTcpClient());
             }
 
             return null;
