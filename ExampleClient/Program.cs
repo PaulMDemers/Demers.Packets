@@ -51,7 +51,7 @@ while (!quit)
     foreach (PacketClient dc in deadClients)
         clients.Remove(dc);
 
-    if (Console.KeyAvailable)
+    if (!Console.IsInputRedirected && Console.KeyAvailable)
     {
         ConsoleKeyInfo keyInfo = Console.ReadKey(true);
         if (keyInfo.Key == ConsoleKey.Q)

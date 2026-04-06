@@ -1,4 +1,6 @@
-﻿namespace Demers.Packets
+﻿using System.Text;
+
+namespace Demers.Packets
 {
     public class PacketReader
     {
@@ -42,7 +44,7 @@
         public string ReadString()
         {
             string s = _packet.ReadString(_currentOffset);
-            _currentOffset += s.Length + 4;
+            _currentOffset += Encoding.UTF8.GetByteCount(s) + 4;
 
             return s;
         }

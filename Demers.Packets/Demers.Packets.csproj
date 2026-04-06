@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;net8.0;net10.0</TargetFrameworks>
     <PackageId>Demers.Packets</PackageId>
     <Version>0.2</Version>
     <Authors>Paul Demers</Authors>
@@ -19,7 +19,7 @@
       <PackageReleaseNotes>
           v0.2.0
           - Added async read and write methods
-          - Added .net 8.0 and .net 9.0 support
+          - Added .net 8.0 and .net 10.0 support
           - Added examples to README
 
           v0.1.0

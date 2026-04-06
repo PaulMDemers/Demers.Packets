@@ -130,3 +130,32 @@ while (true)
     await Task.Delay(10);
 }
 ```
+
+## Minimal Multiplayer Room Sample
+This repo now includes a minimal room-style multiplayer sample:
+
+* `ExampleRoomServer` - accepts many clients, tracks the room state, and rebroadcasts joins, moves, and leaves.
+* `ExampleRoomClient` - joins the room, shows who is present, and lets the user move on the X/Y grid.
+
+Start the server:
+```bash
+dotnet run --project ExampleRoomServer -- --port 8890
+```
+
+Start one or more clients:
+```bash
+dotnet run --project ExampleRoomClient -- --host 127.0.0.1 --port 8890 --name Alice
+dotnet run --project ExampleRoomClient -- --host 127.0.0.1 --port 8890 --name Bob
+```
+
+Client commands:
+* `w`, `a`, `s`, `d` - move by one tile
+* `move <dx> <dy>` - explicit movement delta, clamped to `-1..1`
+* `look` - print the room roster
+* `where` - print your current position
+* `quit` - disconnect from the room
+
+For automation or smoke checks, the room client also supports a scripted mode:
+```bash
+dotnet run --project ExampleRoomClient -- --name Alice --script "wait 500;move 1 0;move 0 1;quit"
+```

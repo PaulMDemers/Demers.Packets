@@ -16,7 +16,7 @@ while (!quit)
     await CheckClientsAsync();
 
 
-    if (Console.KeyAvailable)
+    if (!Console.IsInputRedirected && Console.KeyAvailable)
     {
         ConsoleKeyInfo keyInfo = Console.ReadKey(true);
         

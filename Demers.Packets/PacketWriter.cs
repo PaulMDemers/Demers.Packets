@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Demers.Packets
 {
@@ -7,15 +8,21 @@ namespace Demers.Packets
         private Packet _packet = null;
         private int _currentOffset = 0;
         private int _endOffset = 0;
+        public bool AddLegacyByte { get; set; }
 
         public PacketWriter()
         {
+            AddLegacyByte = false;
+        }
 
+        public PacketWriter(bool addLegacyByte)
+        {
+            AddLegacyByte = addLegacyByte;
         }
 
         public void WriteInt(int t)
         {
-            if (_packet.Length <= (_endOffset + 4))
+            if (_packet.Length < (_endOffset + 4))
             {
                 _packet.Length = _packet.Length * 2 + 4;
                 Array.Resize<byte>(ref _packet.Data, _packet.Length);
@@ -29,7 +36,7 @@ namespace Demers.Packets
 
         public void WriteDouble(double t)
         {
-            if (_packet.Length <= (_endOffset + 8))
+            if (_packet.Length < (_endOffset + 8))
             {
                 _packet.Length = _packet.Length * 2 + 8;
                 Array.Resize<byte>(ref _packet.Data, _packet.Length);
@@ -43,7 +50,7 @@ namespace Demers.Packets
 
         public void WriteFloat(float t)
         {
-            if (_packet.Length <= (_endOffset + 4))
+            if (_packet.Length < (_endOffset + 4))
             {
                 _packet.Length = _packet.Length * 2 + 4;
                 Array.Resize<byte>(ref _packet.Data, _packet.Length);
@@ -57,7 +64,7 @@ namespace Demers.Packets
 
         public void WriteBool(bool t)
         {
-            if (_packet.Length <= (_endOffset + 1))
+            if (_packet.Length < (_endOffset + 1))
             {
                 _packet.Length = _packet.Length * 2 + 1;
                 Array.Resize<byte>(ref _packet.Data, _packet.Length);
@@ -71,14 +78,16 @@ namespace Demers.Packets
 
         public void WriteString(string s)
         {
-            if (_packet.Length <= (_endOffset + s.Length + 4))
+            int byteCount = Encoding.UTF8.GetByteCount(s);
+
+            if (_packet.Length < (_endOffset + byteCount + 4))
             {
-                _packet.Length = _packet.Length * 2 + (s.Length + 4);
+                _packet.Length = _packet.Length * 2 + (byteCount + 4);
                 Array.Resize<byte>(ref _packet.Data, _packet.Length);
             }
 
             _currentOffset = _endOffset;
-            _endOffset = _endOffset + s.Length + 4;
+            _endOffset = _endOffset + byteCount + 4;
 
             _packet.WriteString(s, _currentOffset);
         }
@@ -87,9 +96,11 @@ namespace Demers.Packets
         {
             if (_packet != null)
             {
-                if (_endOffset < _packet.Length - 1)
+                int finalLength = _endOffset + (AddLegacyByte ? 1 : 0);
+
+                if (_packet.Length != finalLength)
                 {
-                    _packet.Length = _endOffset + 1;
+                    _packet.Length = finalLength;
                     Array.Resize<byte>(ref _packet.Data, _packet.Length);
                 }
             }
@@ -107,7 +118,7 @@ namespace Demers.Packets
         public void NewPacket(int opcode)
         {
             Clear();
-            _packet = new Packet(opcode, 1);
+            _packet = new Packet(opcode, 0);
         }
     }
 }
